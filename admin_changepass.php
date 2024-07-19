@@ -2,13 +2,11 @@
 session_start();
 include 'db_connect.php';
 
-// Ensure the user is authenticated and is an admin
 if (!isset($_SESSION['username']) || $_SESSION['user_level'] != 'admin') {
     echo "Access denied.";
     exit;
 }
 
-// Fetch user details from the database
 $conn = openConnection();
 $username = $_SESSION['username'];
 $query = "SELECT first_name, last_name, birthday, contact_number, email FROM users WHERE username = ?";
@@ -21,17 +19,14 @@ closeConnection($conn);
 
 $feedback = "";
 
-// Handle password change
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $currentPassword = $_POST['current_password'];
     $newPassword = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    // Check if new passwords match
     if ($newPassword !== $confirmPassword) {
         $feedback = "New passwords do not match.";
     } else {
-        // Verify current password
         $conn = openConnection();
         $query = "SELECT password FROM users WHERE username = ?";
         $stmt = $conn->prepare($query);
@@ -40,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $result = $stmt->get_result();
         $userPassword = $result->fetch_assoc()['password'];
         if (password_verify($currentPassword, $userPassword)) {
-            // Update password
             $newPasswordHash = password_hash($newPassword, PASSWORD_BCRYPT);
             $query = "UPDATE users SET password = ? WHERE username = ?";
             $stmt = $conn->prepare($query);
@@ -68,11 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         document.addEventListener('DOMContentLoaded', () => {
             const feedbackElement = document.querySelector('.feedback');
             if (feedbackElement) {
-                // Remove the class to restart the animation
                 feedbackElement.classList.remove('fade-animation');
-                // Force reflow to restart the animation
                 void feedbackElement.offsetWidth;
-                // Reapply the class to trigger the animation
                 feedbackElement.classList.add('fade-animation');
             }
         });
