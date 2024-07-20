@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #212529;
+    color: #000000;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+}
+
+.my-info {
+    width: 45%;
+    border: 1px solid #ddd;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f8f9fa;
+}
+
+.my-info {
+    border-radius: 10px;
+}
+
+.my-info h2 {
+    margin-top: 0;
+}
+
+.contact-details {
+    padding-left: 20px;
+}
+
+.user-image {
+    display: block;
+    max-width: 100px;
+    max-height: 100px;
+    min-width: 100px;
+    min-height: 100px;
+    object-fit: cover;
+    position: absolute;
+    top: 25%;
+    right: 0;
+    margin: 10px;
+}
+
+a {
+    color: #0a9396;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.logout-link {
+    text-align: right;
+}

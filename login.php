@@ -2,6 +2,8 @@
 session_start();
 include 'db_connect.php';
 
+$errorMessage = '';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -17,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
             if ($user['status'] == 'disabled') {
-                echo "This account is disabled. Please contact the administrator.";
+                $errorMessage = "This account is disabled. Please contact the administrator.";
             } else {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
@@ -31,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit();
             }
         } else {
-            echo "Invalid username or password.";
+            $errorMessage = "Invalid username or password.";
         }
     } else {
-        echo "Invalid username or password.";
+        $errorMessage = "Invalid username or password.";
     }
 
     closeConnection($conn);
@@ -46,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="css/login_style.css">
 </head>
 <body>
     <form action="login.php" method="POST">
@@ -54,7 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>
-        
+
+        <?php if (!empty($errorMessage)): ?>
+            <div class="error-message"><?php echo htmlspecialchars($errorMessage); ?></div>
+        <?php endif; ?>
+
         <button type="submit">Login</button>
     </form>
 </body>
