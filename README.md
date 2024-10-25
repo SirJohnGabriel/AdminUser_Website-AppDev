@@ -7,7 +7,7 @@ This website uses a simple login page that dictates if the user is a general use
 ### Getting Started
 
 The structure of the code should be:
-'''
+```
   project_root/
   │
   ├── css/
@@ -29,7 +29,7 @@ The structure of the code should be:
   ├── user_home.php
   ├── user_changepass.php
   └── user_image.php
-'''
+```
 
 ## Authors
 
